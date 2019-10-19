@@ -34,6 +34,7 @@ class TriviaViewModel : ViewModel() {
 
         val gson = Gson()
         try {
+            // TODO: Get trivia from api
             val openTriviaResults: OpenTriviaResults =
                 gson.fromJson(SAMPLE_RESPONSE, OpenTriviaResults::class.java)
             if (openTriviaResults.responseCode == 0) {
@@ -95,13 +96,13 @@ class TriviaViewModel : ViewModel() {
     private fun dispatchNextQuestion(question: Question) {
         _currentQuestion = question
         val questionCount = _currentPlayer?.game?.questions?.count() ?: 0
-        _triviaState.value = TriviaState.Play(question, _nextQuestionIndex, questionCount)
+        _triviaState.value = TriviaState.Play(question, _nextQuestionIndex + 1, questionCount) // 1 base index
         _nextQuestionIndex++
     }
 
     fun next() {
         when (val state = _triviaState.value) {
-            is TriviaState.GameOn-> {
+            is TriviaState.GameOn -> {
                 val nextQuestion = selectNextQuestion()
                 if (state.hasMore && nextQuestion != null) {
                     dispatchNextQuestion(nextQuestion)

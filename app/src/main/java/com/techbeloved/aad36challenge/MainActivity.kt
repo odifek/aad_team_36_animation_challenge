@@ -1,18 +1,17 @@
 package com.techbeloved.aad36challenge
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.scene_correct.*
-import kotlinx.android.synthetic.main.scene_correct.button_continue
 import kotlinx.android.synthetic.main.scene_default.*
-import kotlinx.android.synthetic.main.scene_incorrect.*
-import kotlinx.android.synthetic.main.scene_play.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -33,10 +32,9 @@ class MainActivity : AppCompatActivity() {
                 TriviaState.Default -> {
                     val defaultScene =
                         Scene.getSceneForLayout(sceneRoot, R.layout.scene_default, this)
-                    TransitionManager.go(defaultScene)
 
-                    if (!button_play.hasOnClickListeners()) {
-                        button_play.setOnClickListener {
+                    defaultScene.setEnterAction {
+                        findViewById<Button>(R.id.button_play).setOnClickListener {
                             if (editText_player_name.text.isNullOrBlank()) {
                                 editText_player_name.error = "Please enter name"
                             } else {
@@ -45,63 +43,88 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    // TODO: add some transition animation
+                    TransitionManager.go(defaultScene)
+
                 }
                 is TriviaState.Play -> {
                     val question = triviaState.question
-                    val playScene = Scene.getSceneForLayout(sceneRoot, R.layout.scene_play, this)
+                    val playView = layoutInflater.inflate(R.layout.scene_play, sceneRoot, false)
+                    val playScene = Scene(sceneRoot, playView)
                     // Transition to scene
-                    TransitionManager.go(playScene)
-                    textView_play_question.text = question.question
-                    textView_play_question_type.text = question.category
-                    textView_play_counter.text =
-                        getString(R.string.question_counter, triviaState.index, triviaState.total)
 
-                    // Remove previous views that might still be visible in the linear layout
-                    linearLayout_play_options.removeAllViews()
-                    question.answers.forEach { answer ->
-                        val button = layoutInflater.inflate(
-                            R.layout.widget_button_choice,
-                            linearLayout_play_options,
-                            false
-                        ) as MaterialButton
-                        button.text = answer
-                        button.setTag(R.id.answer_choice, answer)
-                        button.setOnClickListener { viewModel.selectedAnswer(answer) }
+                    playScene.setEnterAction {
+                        findViewById<TextView>(R.id.textView_play_question).text = question.question
+                        findViewById<TextView>(R.id.textView_play_question_type).text =
+                            question.category
+                        findViewById<TextView>(R.id.textView_play_counter).text =
+                            getString(
+                                R.string.question_counter,
+                                triviaState.index,
+                                triviaState.total
+                            )
 
-                        linearLayout_play_options.addView(button)
+                        // Remove previous views that might still be visible in the linear layout
+                        val choicesLayout =
+                            findViewById<LinearLayout>(R.id.linearLayout_play_options)
+                        choicesLayout.removeAllViews()
+                        question.answers.forEach { answer ->
+                            val button = layoutInflater.inflate(
+                                R.layout.widget_button_choice,
+                                choicesLayout,
+                                false
+                            ) as MaterialButton
+                            button.text = answer
+                            button.setTag(R.id.answer_choice, answer)
+                            button.setOnClickListener { viewModel.selectedAnswer(answer) }
+
+                            choicesLayout.addView(button)
+                        }
                     }
+                    // TODO: Add some transition animation
+                    TransitionManager.go(playScene)
+
                 }
                 is TriviaState.GameOn.Correct -> {
-                    val correctScene =
-                        Scene.getSceneForLayout(sceneRoot, R.layout.scene_correct, this)
-                    TransitionManager.go(correctScene)
-                    if (!triviaState.hasMore) {
-                        button_continue.setText(R.string.see_summary)
-                    }
-                    if (!button_continue.hasOnClickListeners()) {
-                        button_continue.setOnClickListener {
+                    val correctView =
+                        layoutInflater.inflate(R.layout.scene_correct, sceneRoot, false)
+                    val correctScene = Scene(sceneRoot, correctView)
+                    correctScene.setEnterAction {
+                        val continueButton = findViewById<Button>(R.id.button_continue)
+                        if (!triviaState.hasMore) {
+                            continueButton.setText(R.string.see_summary)
+                        }
+                        continueButton.setOnClickListener {
                             viewModel.next()
                         }
                     }
+                    // TODO: Add some transition animation
+                    TransitionManager.go(correctScene)
+
                 }
                 is TriviaState.GameOn.Incorrect -> {
-                    val incorrectScene =
-                        Scene.getSceneForLayout(sceneRoot, R.layout.scene_incorrect, this)
-                    TransitionManager.go(incorrectScene)
-                    if (!triviaState.hasMore) {
-                        button_continue.setText(R.string.see_summary)
-                    }
-                    if (!button_continue.hasOnClickListeners()) {
-                        button_continue.setOnClickListener {
+                    val incorrectView =
+                        layoutInflater.inflate(R.layout.scene_incorrect, sceneRoot, false)
+                    val incorrectScene = Scene(sceneRoot, incorrectView)
+                    incorrectScene.setEnterAction {
+                        val continueButton = findViewById<Button>(R.id.button_continue)
+                        if (!triviaState.hasMore) {
+                            continueButton.setText(R.string.see_summary)
+                        }
+                        continueButton.setOnClickListener {
                             viewModel.next()
                         }
                     }
+                    // TODO: Add some transition animation
+
+                    TransitionManager.go(incorrectScene)
+
                 }
                 is TriviaState.GameOn.Timeout -> {
-                    // TODO
+                    // TODO: Create time out logic and enable timer
                 }
                 is TriviaState.Summary -> {
-                    // TODO
+                    // TODO: create summary screen and navigate to it
                 }
             }
         })
