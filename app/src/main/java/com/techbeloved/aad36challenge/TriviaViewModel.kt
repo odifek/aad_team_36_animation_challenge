@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModel
  */
 class TriviaViewModel: ViewModel() {
 
-    private val _triviaState: MutableLiveData<TriviaState> = MutableLiveData()
+    private val _triviaState: MutableLiveData<TriviaState> = MutableLiveData(TriviaState.Default)
 
     /**
      * Observe this to receive the current state of the game
