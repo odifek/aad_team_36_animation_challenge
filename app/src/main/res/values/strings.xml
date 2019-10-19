@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">AAD 36 Challenge</string>
+    <string name="welcome_message">Welcome to 36 Trivia</string>
+    <string name="enter_name_hint">Name of Player</string>
+    <string name="start_trivia">Start Trivia</string>
+    <string name="background_image">Background Image</string>
+    <string name="background_tint">Background tint</string>
+    <string name="select_an_answer_to_continue">Select an Answer to continue</string>
+    <string name="continue_text">Continue</string>
+    <string name="give_up">Give up</string>
+    <string name="quit">Quit</string>
+    <string name="well_done">Well Done</string>
+    <string name="your_score">Your score</string>
+    <string name="play_another">Play Another</string>
 </resources>
