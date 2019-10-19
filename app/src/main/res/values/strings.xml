@@ -6,4 +6,5 @@
     <string name="background_image">Background Image</string>
     <string name="background_tint">Background tint</string>
     <string name="select_an_answer_to_continue">Select an Answer to continue</string>
+    <string name="continue_text">Continue</string>
 </resources>
