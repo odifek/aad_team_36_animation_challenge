@@ -9,4 +9,7 @@
     <string name="continue_text">Continue</string>
     <string name="give_up">Give up</string>
     <string name="quit">Quit</string>
+    <string name="well_done">Well Done</string>
+    <string name="your_score">Your score</string>
+    <string name="play_another">Play Another</string>
 </resources>

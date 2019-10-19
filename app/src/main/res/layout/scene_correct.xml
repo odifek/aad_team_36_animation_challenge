@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/background_image"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/science2" />
+        android:src="@drawable/science2" />
 
     <ImageView
         android:layout_width="match_parent"
