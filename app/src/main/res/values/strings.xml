@@ -7,4 +7,6 @@
     <string name="background_tint">Background tint</string>
     <string name="select_an_answer_to_continue">Select an Answer to continue</string>
     <string name="continue_text">Continue</string>
+    <string name="give_up">Give up</string>
+    <string name="quit">Quit</string>
 </resources>
