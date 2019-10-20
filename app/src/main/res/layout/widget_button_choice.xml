@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:drawableEnd="@drawable/ic_check_circle"/>
+    android:layout_height="56dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:textColor="#212121"
+    tools:text="Choice One"
+    android:textAllCaps="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:drawableEnd="@drawable/ic_check_circle"
+    app:backgroundTint="#EEEEEE" />

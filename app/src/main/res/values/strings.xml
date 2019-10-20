@@ -12,4 +12,7 @@
     <string name="well_done">Well Done</string>
     <string name="your_score">Your score</string>
     <string name="play_another">Play Another</string>
+
+    <string name="question_counter">%1$d of %2$d questions</string>
+    <string name="see_summary">See Summary</string>
 </resources>
